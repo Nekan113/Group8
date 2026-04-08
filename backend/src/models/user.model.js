@@ -8,7 +8,10 @@ const userSchema = new mongoose.Schema({
     country: { type: String, required: true },
     role: { type: String, enum: ['PLAYER', 'ADMIN'], default: 'PLAYER' },
     loginAttempts: { type: Number, default: 0 },
-    lockUntil: { type: Number }
+    lockUntil: { type: Number },
+    status : { type: String, enum: ['ACTIVE', 'BANNED'], default: 'ACTIVE' },
+    //isPremium : { type: Boolean, default: false },
+    //premiumExpiry: { type: Date, default: null }
 }); 
 
 userSchema.pre('save', async function() {

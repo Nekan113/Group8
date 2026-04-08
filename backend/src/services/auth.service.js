@@ -5,23 +5,20 @@ const authRepository = require('../repositories/auth.repository');
 
 class AuthService {
   async register(userData) {
-    const existingUser = await authRepository.findByEmail(userData.email);
+    const existingUser = await authRepository.findByEmailOrUsername(userData.email, userData.username);
     if (existingUser) {
-      throw new Error('Email address already in use');
+      const field = existingUser.email === userData.email ? 'Email' : 'Username';
+      throw new Error(`${field} already exists`);
     }
-
-  
     return await authRepository.createUser(userData);
   }
 
   
-  async login(email, password) {
-    const user = await authRepository.findByEmail(email);
+  async login(identifier, password) {
+    const user = await authRepository.findByEmailOrUsername(identifier, identifier);
     if (!user) {
-      throw new Error('Invalid email or password');
+      throw new Error('Invalid username/email or password');
     }
-
-    
 
    
     const now = Date.now();
@@ -42,10 +39,12 @@ class AuthService {
       }
 
       await authRepository.updateLoginAttempts(user._id, attempts, lockUntil);
-      throw new Error('Invalid email or password');
+      throw new Error('Invalid username/email or password');
     }
 
-
+    if (user.status === 'BANNED') {
+      throw new Error('Your account has been banned. Please contact support for more information.');
+    }
     
     await authRepository.updateLoginAttempts(user._id, 0, null);
 
@@ -56,33 +55,29 @@ class AuthService {
       { expiresIn: '1h' }
     );
 
-    return { token, user };
+    const userResponse = {
+      id: user._id,
+      email: user.email,
+      username: user.username,
+      role: user.role,
+      status: user.status
+    };
+
+    return { token, user: userResponse };
   }
 
-  async updatePassword(userId, currentPassword, newPassword) {
-    const user = await authRepository.findById(userId);
-    if (!user) throw new Error('User not found');
+  // async updatePassword(userId, currentPassword, newPassword) {
+  //   const user = await authRepository.findById(userId);
+  //   if (!user) throw new Error('User not found');
 
-    const isMatch = await bcrypt.compare(currentPassword, user.password);
-    if (!isMatch) throw new Error('Current password is incorrect'); 
+  //   const isMatch = await bcrypt.compare(currentPassword, user.password);
+  //   if (!isMatch) throw new Error('Current password is incorrect'); 
 
-    user.password = newPassword;
-    return await user.save();
-  }
+  //   user.password = newPassword;
+  //   return await user.save();
+  // }
 
-  async getUserById(id) {
-        const user = await authRepository.findById(id);
-        if (!user) throw new Error('User not found');
-        return user;
-    }
-
-    async updateProfile(userId, updateData) {
-        return await authRepository.updateUserProfile(userId, updateData);
-    }
-
-    async getAllUsers() {
-        return await authRepository.findAllPlayers();
-    }
 }
+
 
 module.exports = new AuthService();

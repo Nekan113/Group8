@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const connectDB = require("./src/config/db");
 const authRoutes = require("./src/routes/auth.routes"); 
+const adminRoutes = require("./src/routes/admin.routes");
 
 const app = express();
 
@@ -13,7 +14,8 @@ app.use(express.json());
 connectDB();
 
 // API routes
-app.use("/api/auth", authRoutes); 
+app.use("/api/auth", authRoutes);
+app.use('/api/admin', adminRoutes);
 
 app.get("/", (req, res) => {
   res.send("TicTacToang API is running...");

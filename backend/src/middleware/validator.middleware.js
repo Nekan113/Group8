@@ -3,7 +3,7 @@ const {body, validationResult} = require('express-validator');
 const registerValidator= [
     body('email').isEmail().withMessage('Invalid email format'),
 
-    body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters long')
+    body('password').isLength({ min: 8 }).withMessage('Password must be at least 8 characters long')
     .matches(/[A-Z]/).withMessage('Password must contain at least one uppercase letter')
     .matches(/[a-z]/).withMessage('Password must contain at least one lowercase letter')
     .matches(/[0-9]/).withMessage('Password must contain at least one number')
@@ -29,7 +29,7 @@ const registerValidator= [
 
 const updatePasswordValidator = [
     body('currentPassword').notEmpty().withMessage('Current password is required'),
-    body('newPassword').isLength({ min: 6 }).withMessage('New password must be at least 6 characters long')
+    body('newPassword').isLength({ min: 8 }).withMessage('New password must be at least 8 characters long')
     .matches(/[A-Z]/).withMessage('New password must contain at least one uppercase letter')
     .matches(/[a-z]/).withMessage('New password must contain at least one lowercase letter')
     .matches(/[0-9]/).withMessage('New password must contain at least one number')
