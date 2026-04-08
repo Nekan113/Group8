@@ -5,7 +5,7 @@ const userResponseDTO = (user) => {
         username: user.username,
         role: user.role,
         country: user.country,
-        premiumStatus: user.premiumStatus || false
+        //premiumStatus: user.premiumStatus || false
     };
 };
 

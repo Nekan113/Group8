@@ -55,15 +55,7 @@ class AuthService {
       { expiresIn: '1h' }
     );
 
-    const userResponse = {
-      id: user._id,
-      email: user.email,
-      username: user.username,
-      role: user.role,
-      status: user.status
-    };
-
-    return { token, user: userResponse };
+    return { token, user };
   }
 
   // async updatePassword(userId, currentPassword, newPassword) {
