@@ -1,7 +1,7 @@
 
 const authService = require('../services/auth.service');
 
-const { userResponseDTO } = require('../dtos/auth.dto');
+const { userResponseDTO } = require('../dtos/user.dto');
 
 class AuthController {
     async register(req, res) {
