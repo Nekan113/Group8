@@ -45,10 +45,11 @@ class AuthController {
     
     async logout(req, res) {
         try {
-           
-            res.status(200).json({ message: "Logged out successfully" });
+            const token = req.headers['authorization']?.split(' ')[1];
+            await authService.logout(token);
+            res.status(200).json({ message: 'Logged out successfully' });
         } catch (error) {
-            res.status(500).json({ message: "Logout failed" });
+            res.status(500).json({ message: 'Logout failed' });
         }
     }
 

@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs'); 
+const bcrypt = require('bcryptjs');
 
 const userSchema = new mongoose.Schema({
     username: { type: String, required: true, unique: true },
@@ -9,10 +9,12 @@ const userSchema = new mongoose.Schema({
     role: { type: String, enum: ['PLAYER', 'ADMIN'], default: 'PLAYER' },
     loginAttempts: { type: Number, default: 0 },
     lockUntil: { type: Number },
-    status : { type: String, enum: ['ACTIVE', 'BANNED'], default: 'ACTIVE' },
-    //isPremium : { type: Boolean, default: false },
-    //premiumExpiry: { type: Date, default: null }
-}); 
+    status: { type: String, enum: ['ACTIVE', 'BANNED'], default: 'ACTIVE' },
+    isPremium: { type: Boolean, default: false },
+    premiumExpiry: { type: Date, default: null },
+    avatar: { type: String, default: null },
+    wallet: { type: Number, default: 0 },
+}, { timestamps: true });
 
 userSchema.pre('save', async function() {
     if (!this.isModified('password')) return;

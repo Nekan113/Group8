@@ -5,7 +5,11 @@ const userResponseDTO = (user) => {
         username: user.username,
         role: user.role,
         country: user.country,
-        //premiumStatus: user.premiumStatus || false
+        isPremium: user.isPremium || false,
+        premiumExpiry: user.premiumExpiry || null,
+        avatar: user.avatar || null,
+        wallet: user.wallet ?? 0,
+        status: user.status,
     };
 };
 

@@ -1,4 +1,5 @@
 const adminRepository = require('../repositories/admin.repository');
+const gameInterface = require('../interfaces/game.interface');
 
 class AdminService {
     async getAllPlayers() {
@@ -11,11 +12,24 @@ class AdminService {
         }
 
         const user = await adminRepository.findUserById(targetUserId);
-        if (!user) {
-            throw new Error('User not found');
-        }
+        if (!user) throw new Error('User not found');
 
         return await adminRepository.updateStatus(targetUserId, status);
+    }
+
+    
+    async getOnlineGames() {
+        return await gameInterface.findAllOnlineGames();
+    }
+
+  
+    async searchOnlineGames(query) {
+        return await gameInterface.searchOnlineGames(query);
+    }
+
+   
+    async closeGameRoom(gameId) {
+        return await gameInterface.adminCloseGame(gameId);
     }
 }
 

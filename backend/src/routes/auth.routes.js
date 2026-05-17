@@ -6,8 +6,7 @@ const {registerValidator, updatePasswordValidator} = require('../middleware/vali
 
 router.post('/register', registerValidator, authController.register);
 router.post('/login', authController.login);
-
-//router.patch('/update-password', verifyToken, updatePasswordValidator, authController.updatePassword);
+router.post('/logout', verifyToken, authController.logout);
 
 
 
