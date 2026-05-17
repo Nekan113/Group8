@@ -1,0 +1,229 @@
+.profile-page {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 24px;
+  min-height: calc(100vh - 60px);
+}
+
+.profile-page__loading,
+.profile-page__empty {
+  color: var(--color-text-muted);
+  text-align: center;
+  padding: 40px;
+}
+
+/* ── Sidebar ── */
+.profile-page__sidebar {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 28px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  align-self: start;
+  position: sticky;
+  top: 80px;
+}
+
+.profile-page__identity {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.profile-page__name {
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.profile-page__country {
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+}
+
+.profile-page__premium-badge {
+  background: linear-gradient(135deg, var(--color-gold), #ffaa00);
+  color: #000;
+  font-size: 0.7rem;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 100px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.profile-page__free-badge {
+  background: var(--color-bg-elevated);
+  color: var(--color-text-muted);
+  font-size: 0.7rem;
+  padding: 3px 10px;
+  border-radius: 100px;
+}
+
+.profile-page__wallet-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 14px 24px;
+  width: 100%;
+}
+
+.profile-page__wallet-label {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.profile-page__wallet-value {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--color-success);
+}
+
+.profile-page__tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+}
+
+.profile-page__tab {
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  text-align: left;
+  transition: background var(--transition), color var(--transition);
+}
+
+.profile-page__tab:hover { background: rgba(255,255,255,0.05); color: var(--color-text); }
+.profile-page__tab--active { background: var(--color-primary); color: #fff; }
+
+/* ── History ── */
+.profile-page__history { display: flex; flex-direction: column; gap: 16px; }
+
+.profile-page__history-filters {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.profile-page__select {
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 0.88rem;
+  cursor: pointer;
+  outline: none;
+}
+
+.profile-page__select:focus { border-color: var(--color-primary); }
+
+.profile-page__history-table-wrapper { overflow-x: auto; }
+
+.profile-page__history-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+.profile-page__history-table th,
+.profile-page__history-table td {
+  padding: 12px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.profile-page__history-table th {
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.profile-page__result--win { color: var(--color-success); font-weight: 700; }
+.profile-page__result--lose { color: var(--color-error); font-weight: 700; }
+.profile-page__result--aborted { color: var(--color-text-muted); }
+
+.profile-page__replay-link {
+  color: var(--color-primary);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+/* ── Wallet ── */
+.profile-page__wallet { display: flex; flex-direction: column; gap: 20px; }
+
+.profile-page__wallet-card {
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.profile-page__wallet-card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.profile-page__wallet-deposit { display: flex; gap: 10px; align-items: flex-end; }
+.profile-page__wallet-desc { color: var(--color-text-muted); font-size: 0.9rem; }
+
+.profile-page__premium-active {
+  background: rgba(255, 215, 0, 0.1);
+  border: 1px solid var(--color-gold);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  color: var(--color-gold);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.profile-page__subscribe-options { display: flex; gap: 12px; flex-wrap: wrap; }
+.profile-page__wallet-msg { color: var(--color-success); font-size: 0.85rem; }
+
+/* ── Responsive (A.4.b) ── */
+@media (max-width: 900px) {
+  .profile-page {
+    grid-template-columns: 1fr;
+    padding: 16px;
+  }
+
+  .profile-page__sidebar {
+    position: static;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .profile-page__tabs { flex-direction: row; flex-wrap: wrap; }
+
+  .profile-page__wallet-deposit { flex-direction: column; }
+}
+
+@media (max-width: 480px) {
+  .profile-page__history-filters { flex-direction: column; }
+}

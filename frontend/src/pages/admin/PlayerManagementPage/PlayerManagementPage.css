@@ -1,0 +1,123 @@
+.player-management-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+.player-management-page__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.player-management-page__title { font-size: 1.8rem; font-weight: 800; }
+
+.player-management-page__admin-nav {
+  display: flex;
+  gap: 8px;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 4px;
+}
+
+.player-management-page__nav-link {
+  padding: 6px 14px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  transition: background var(--transition), color var(--transition);
+  text-decoration: none;
+}
+
+.player-management-page__nav-link:hover { color: var(--color-text); }
+.player-management-page__nav-link--active { background: var(--color-primary); color: #fff; }
+.player-management-page__nav-link--active:hover { color: #fff; }
+
+.player-management-page__search { margin-bottom: 20px; max-width: 400px; }
+
+.player-management-page__status { color: var(--color-text-muted); text-align: center; padding: 40px; }
+
+.player-management-page__table-wrapper { overflow-x: auto; }
+
+.player-management-page__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+.player-management-page__table th,
+.player-management-page__table td {
+  padding: 12px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.player-management-page__table th {
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.player-management-page__row--inactive { opacity: 0.6; }
+
+.player-management-page__cell--username {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+}
+
+.player-management-page__avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+.player-management-page__badge {
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  border-radius: 100px;
+  background: var(--color-bg-elevated);
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+}
+
+.player-management-page__badge--premium {
+  background: rgba(255, 215, 0, 0.12);
+  color: var(--color-gold);
+  border-color: var(--color-gold);
+}
+
+.player-management-page__status-pill {
+  font-size: 0.75rem;
+  padding: 3px 10px;
+  border-radius: 100px;
+  font-weight: 600;
+}
+
+.player-management-page__status-pill--active { background: rgba(46, 196, 182, 0.12); color: var(--color-success); }
+.player-management-page__status-pill--inactive { background: rgba(255, 107, 107, 0.12); color: var(--color-error); }
+
+.player-management-page__count {
+  margin-top: 12px;
+  color: var(--color-text-muted);
+  font-size: 0.82rem;
+}
+
+/* Responsive (A.4.b) */
+@media (max-width: 768px) {
+  .player-management-page__header { flex-direction: column; align-items: flex-start; }
+  .player-management-page__table { font-size: 0.78rem; }
+  .player-management-page__table th,
+  .player-management-page__table td { padding: 8px 10px; }
+}

@@ -1,0 +1,99 @@
+.game-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  min-width: 200px;
+  align-self: flex-start;
+}
+
+.game-sidebar__player {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  transition: border-color var(--transition), background var(--transition);
+}
+
+.game-sidebar__player--active {
+  border-color: var(--color-primary);
+  background: rgba(108, 99, 255, 0.08);
+}
+
+.game-sidebar__avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--color-border);
+}
+
+.game-sidebar__player--active .game-sidebar__avatar { border-color: var(--color-primary); }
+
+.game-sidebar__player-info { text-align: center; }
+
+.game-sidebar__player-name {
+  display: block;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.game-sidebar__marker {
+  display: block;
+  font-size: 1.4rem;
+  margin-top: 2px;
+}
+
+.game-sidebar__turn-indicator {
+  font-size: 0.75rem;
+  color: var(--color-primary);
+  font-weight: 600;
+  animation: pulse-text 1s ease infinite;
+}
+
+@keyframes pulse-text {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.game-sidebar__vs {
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.game-sidebar__stats {
+  border-top: 1px solid var(--color-border);
+  padding-top: 12px;
+}
+
+.game-sidebar__stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.game-sidebar__stat-label { font-size: 0.8rem; color: var(--color-text-muted); }
+.game-sidebar__stat-value { font-weight: 700; font-size: 1rem; }
+
+.game-sidebar__abort {
+  background: none;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  padding: 8px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 0.82rem;
+  transition: border-color var(--transition), color var(--transition);
+  width: 100%;
+}
+
+.game-sidebar__abort:hover { border-color: var(--color-error); color: var(--color-error); }

@@ -1,0 +1,104 @@
+.game-replay-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+.game-replay-page--gate {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 60px);
+}
+
+.game-replay-page__gate-card {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 48px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 400px;
+}
+
+.game-replay-page__gate-card h2 { font-size: 1.4rem; }
+.game-replay-page__gate-card p { color: var(--color-text-muted); }
+
+.game-replay-page__status {
+  text-align: center;
+  padding: 48px;
+  color: var(--color-text-muted);
+}
+
+.game-replay-page__header { margin-bottom: 24px; }
+
+.game-replay-page__title { font-size: 1.8rem; font-weight: 800; }
+.game-replay-page__meta { color: var(--color-text-muted); margin-top: 4px; }
+
+.game-replay-page__layout {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.game-replay-page__panel {
+  flex: 1;
+  min-width: 240px;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.game-replay-page__controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+}
+
+.game-replay-page__step-info {
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+
+.game-replay-page__notation { color: var(--color-primary); font-weight: 700; }
+
+.game-replay-page__scrubber {
+  width: 100%;
+  accent-color: var(--color-primary);
+}
+
+.game-replay-page__move-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.game-replay-page__move {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  background: none;
+  border: 1px solid transparent;
+  cursor: pointer;
+  font-size: 0.82rem;
+  transition: background var(--transition), border-color var(--transition);
+}
+
+.game-replay-page__move:hover { background: rgba(255,255,255,0.04); }
+.game-replay-page__move--current { background: rgba(108, 99, 255, 0.1); border-color: var(--color-primary); }
+
+.game-replay-page__move-player--p1 { color: var(--color-primary); font-weight: 600; }
+.game-replay-page__move-player--p2 { color: var(--color-secondary); font-weight: 600; }
+.game-replay-page__move-coord { color: var(--color-text-muted); }

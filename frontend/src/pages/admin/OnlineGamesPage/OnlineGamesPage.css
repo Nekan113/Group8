@@ -1,0 +1,98 @@
+.online-games-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+.online-games-page__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.online-games-page__title { font-size: 1.8rem; font-weight: 800; }
+
+.online-games-page__admin-nav {
+  display: flex;
+  gap: 8px;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 4px;
+}
+
+.online-games-page__nav-link {
+  padding: 6px 14px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  transition: background var(--transition), color var(--transition);
+  text-decoration: none;
+}
+
+.online-games-page__nav-link:hover { color: var(--color-text); }
+.online-games-page__nav-link--active { background: var(--color-primary); color: #fff; }
+.online-games-page__nav-link--active:hover { color: #fff; }
+
+.online-games-page__search { margin-bottom: 20px; max-width: 400px; }
+
+.online-games-page__status { color: var(--color-text-muted); text-align: center; padding: 40px; }
+
+.online-games-page__table-wrapper { overflow-x: auto; }
+
+.online-games-page__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+.online-games-page__table th,
+.online-games-page__table td {
+  padding: 12px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.online-games-page__table th {
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.online-games-page__room-num { font-weight: 700; color: var(--color-primary); font-family: monospace; }
+.online-games-page__player { font-weight: 600; }
+
+.online-games-page__status-pill {
+  font-size: 0.75rem;
+  padding: 3px 10px;
+  border-radius: 100px;
+  font-weight: 600;
+}
+
+.online-games-page__status-pill--active,
+.online-games-page__status-pill--ongoing {
+  background: rgba(46, 196, 182, 0.12);
+  color: var(--color-success);
+}
+
+.online-games-page__status-pill--waiting { background: rgba(255, 209, 102, 0.12); color: var(--color-warning); }
+
+.online-games-page__count {
+  margin-top: 12px;
+  color: var(--color-text-muted);
+  font-size: 0.82rem;
+}
+
+/* Responsive (A.4.b) */
+@media (max-width: 768px) {
+  .online-games-page__header { flex-direction: column; align-items: flex-start; }
+  .online-games-page__table { font-size: 0.78rem; }
+  .online-games-page__table th,
+  .online-games-page__table td { padding: 8px 10px; }
+}
