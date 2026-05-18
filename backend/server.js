@@ -1,35 +1,32 @@
-require("dotenv").config();
-const express = require("express");
-const cors = require("cors");
-const path = require("path");
-const connectDB = require("./src/config/db");
-const authRoutes = require("./src/routes/auth.routes");
-const adminRoutes = require("./src/routes/admin.routes");
-const profileRoutes = require("./src/routes/profile.routes");
-const gameRoutes = require("./src/routes/game.routes");
+require('dotenv').config();
+const http = require('http');
+const express = require('express');
+const cors = require('cors');
+const path = require('path');
+const connectDB = require('./src/shared/config/db');
+const { initSocket } = require('./src/shared/socket/socket');
+const authRoutes    = require('./src/modules/auth/auth.routes');
+const adminRoutes   = require('./src/modules/admin/admin.routes');
+const profileRoutes = require('./src/modules/profile/profile.routes');
+const gameRoutes    = require('./src/modules/game/game.routes');
 
 const app = express();
 
-app.use(cors());
+app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
-
-
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 connectDB();
 
-// API routes
-app.use("/api/auth", authRoutes);
-app.use("/api/admin", adminRoutes);
-app.use("/api/profile", profileRoutes);
-app.use("/api/game", gameRoutes);
+app.use('/api/auth',    authRoutes);
+app.use('/api/admin',   adminRoutes);
+app.use('/api/profile', profileRoutes);
+app.use('/api/game',    gameRoutes);
 
-app.get("/", (req, res) => {
-  res.send("TicTacToang API is running...");
-});
+app.get('/', (req, res) => res.send('TicTacToang API is running...'));
 
+const server = http.createServer(app);
+initSocket(server);
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
