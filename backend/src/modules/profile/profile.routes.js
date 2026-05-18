@@ -14,5 +14,6 @@ router.post('/avatar', upload.single('avatar'), processAvatar, profileController
 router.get('/history', profileController.getGameHistory);
 router.post('/wallet/deposit', profileController.deposit);
 router.post('/subscription', profileController.subscribe);
+router.post('/subscription/stripe/create-checkout-session', profileController.stripeCheckout);
 
 module.exports = router;

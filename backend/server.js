@@ -13,6 +13,15 @@ const gameRoutes    = require('./src/modules/game/game.routes');
 const app = express();
 
 app.use(cors({ origin: true, credentials: true }));
+
+// Stripe webhook requires raw body for signature verification — mount BEFORE express.json()
+const profileController = require('./src/modules/profile/profile.controller');
+app.post(
+    '/api/profile/subscription/stripe/webhook',
+    express.raw({ type: 'application/json' }),
+    profileController.stripeWebhook
+);
+
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 

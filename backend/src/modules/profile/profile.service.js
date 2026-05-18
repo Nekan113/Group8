@@ -1,4 +1,5 @@
 const bcrypt = require('bcryptjs');
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const profileRepository = require('./profile.repository');
 const gameInterface = require('../game/game.interface');
 const { sendPremiumConfirmationEmail } = require('../../shared/utils/email.service');
@@ -70,6 +71,45 @@ class ProfileService {
     async deposit(userId, amount) {
         if (amount <= 0) throw new Error('Deposit amount must be greater than zero');
         return await profileRepository.updateWallet(userId, amount);
+    }
+
+    async createStripeCheckout(userId, successUrl, cancelUrl) {
+        const user = await profileRepository.findById(userId);
+        if (!user) throw new Error('User not found');
+
+        const session = await stripe.checkout.sessions.create({
+            payment_method_types: ['card'],
+            line_items: [{
+                price_data: {
+                    currency: 'usd',
+                    product_data: { name: 'TicTacToang Premium (1 Month)' },
+                    unit_amount: 1000,
+                },
+                quantity: 1,
+            }],
+            mode: 'payment',
+            success_url: `${successUrl}?session_id={CHECKOUT_SESSION_ID}`,
+            cancel_url: cancelUrl,
+            metadata: { userId: userId.toString() },
+            customer_email: user.email,
+        });
+
+        return { url: session.url };
+    }
+
+    async activatePremiumFromStripe(userId) {
+        const now = new Date();
+        const expiry = new Date(now);
+        expiry.setMonth(expiry.getMonth() + 1);
+
+        const user = await profileRepository.findById(userId);
+        await profileRepository.updatePremiumStatus(userId, true, expiry);
+
+        if (user) {
+            sendPremiumConfirmationEmail(user.email, user.username, expiry).catch((err) =>
+                console.error('[Email] Failed to send premium confirmation:', err.message)
+            );
+        }
     }
 
     async subscribe(userId) {
