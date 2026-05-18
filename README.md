@@ -1,11 +1,11 @@
 Account to use for testing : 
 
-ADMIN : admin pass: 1
+ADMIN : admin password: 1
 
-User account :
+User account : 
 
-Free : 
+Free : test2 password: Test123456@
 
-Premium : 
+Premium : test3 password: Test123456@
 
 Card detail to test : 4242 4242 4242 4242
