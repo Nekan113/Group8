@@ -7,6 +7,7 @@ const { upload, processAvatar } = require('../../shared/middleware/upload.middle
 
 router.use(verifyToken);
 
+router.get('/user/:userId/avatar', profileController.getUserAvatar);
 router.get('/', profileController.getProfile);
 router.put('/', updateProfileValidator, profileController.updateProfile);
 router.put('/password', changePasswordValidator, profileController.changePassword);

@@ -16,6 +16,11 @@ class ProfileService {
         return user?.isPremium || false;
     }
 
+    async getUserAvatar(userId) {
+        const user = await profileRepository.findAvatarById(userId);
+        return user?.avatar || null;
+    }
+
     async updateProfile(userId, { username, email, country }) {
         const updates = {};
         if (username !== undefined) updates.username = username;

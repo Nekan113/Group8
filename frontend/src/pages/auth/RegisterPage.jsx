@@ -3,7 +3,9 @@ import Input from '../../components/ui/Input';
 import Button from '../../components/ui/Button';
 import Alert from '../../components/ui/Alert';
 import Select from '../../components/ui/Select';
-import { useRegisterForm, usePasswordStrength } from './RegisterPage.hooks';
+import { useRegisterForm } from './RegisterPage.hooks';
+import PasswordStrengthIndicator from './PasswordStrengthIndicator';
+import './RegisterPage.css';
 
 const COUNTRIES = [
   'Afghanistan','Albania','Algeria','Argentina','Australia','Austria','Bangladesh','Belgium',
@@ -16,28 +18,6 @@ const COUNTRIES = [
   'United Kingdom','United States','Venezuela','Vietnam','Other'
 ];
 
-function PasswordStrengthIndicator({ password }) {
-  const { checks, score, colors, labels } = usePasswordStrength(password);
-  if (!password) return null;
-  return (
-    <div className="mt-2 space-y-2">
-      <div className="flex gap-1">
-        {checks.map((_, i) => (
-          <div key={i} className={`h-1 flex-1 rounded-full transition-all ${i < score ? colors[score - 1] : 'bg-slate-700'}`} />
-        ))}
-      </div>
-      <div className="flex flex-wrap gap-x-3 gap-y-1">
-        {checks.map(c => (
-          <span key={c.label} className={`text-xs flex items-center gap-1 ${c.ok ? 'text-emerald-400' : 'text-slate-500'}`}>
-            {c.ok ? '✓' : '○'} {c.label}
-          </span>
-        ))}
-      </div>
-      {score > 0 && <p className={`text-xs font-medium ${colors[score-1].replace('bg-','text-')}`}>{labels[score-1]}</p>}
-    </div>
-  );
-}
-
 export default function RegisterPage() {
   const { form, errors, serverError, loading, showPass, setShowPass, handleChange, handleSubmit } = useRegisterForm();
   const countryOptions = [{ value: '', label: 'Select your country' }, ...COUNTRIES.map(c => ({ value: c, label: c }))];
@@ -46,9 +26,7 @@ export default function RegisterPage() {
     <div className="min-h-screen bg-slate-950 flex items-center justify-center p-4">
       <div className="w-full max-w-md animate-slide-up">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-14 h-14 bg-gradient-to-br from-violet-500 to-cyan-500 rounded-2xl mb-4 shadow-xl shadow-violet-500/30">
-            <span className="text-2xl font-black text-white">T</span>
-          </div>
+          <img src="/tictactoe-logo.png" alt="TicTacToang" className="w-14 h-14 object-contain mx-auto mb-4 drop-shadow-xl" />
           <h1 className="text-3xl font-black text-white">Create account</h1>
           <p className="text-slate-400 mt-1">Join TicTacToang and start playing</p>
         </div>

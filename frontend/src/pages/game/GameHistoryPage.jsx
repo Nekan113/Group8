@@ -39,7 +39,7 @@ export default function GameHistoryPage() {
             <div className="flex-1 min-w-48">
               <input
                 className="input-field text-sm"
-                placeholder="Search opponent name…"
+                placeholder="Search by session ID or opponent name…"
                 value={search}
                 onChange={e => setSearch(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && handleSearch()}

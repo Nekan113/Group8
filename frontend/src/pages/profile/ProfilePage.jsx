@@ -7,6 +7,8 @@ import Modal from '../../components/ui/Modal';
 import Select from '../../components/ui/Select';
 import { PageLoader } from '../../components/ui/LoadingSpinner';
 import { useProfile, useInfoForm, usePasswordForm, useAvatarUpload, useWallet } from './ProfilePage.hooks';
+import StatCard from './StatCard';
+import './ProfilePage.css';
 
 const COUNTRIES = [
   'Afghanistan','Albania','Algeria','Argentina','Australia','Austria','Bangladesh','Belgium',
@@ -18,15 +20,6 @@ const COUNTRIES = [
   'South Korea','Spain','Sri Lanka','Sweden','Switzerland','Thailand','Turkey','Ukraine',
   'United Kingdom','United States','Venezuela','Vietnam','Other'
 ];
-
-function StatCard({ label, value, color = 'text-violet-400' }) {
-  return (
-    <div className="bg-slate-900/60 rounded-xl p-4 border border-slate-700/50">
-      <p className="text-xs text-slate-500 font-medium uppercase tracking-wider mb-1">{label}</p>
-      <p className={`text-2xl font-bold ${color}`}>{value}</p>
-    </div>
-  );
-}
 
 export default function ProfilePage() {
   const { profile, setProfile, loading } = useProfile();

@@ -131,6 +131,15 @@ class ProfileController {
 
         res.json({ received: true });
     }
+
+    async getUserAvatar(req, res) {
+        try {
+            const avatar = await profileService.getUserAvatar(req.params.userId);
+            res.status(200).json({ avatar });
+        } catch (error) {
+            res.status(404).json({ message: error.message });
+        }
+    }
 }
 
 module.exports = new ProfileController();

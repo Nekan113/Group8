@@ -21,17 +21,6 @@ class GameRepository {
         }).sort({ startTime: -1 });
     }
 
-    async findActiveGame(userId) {
-        const oid = new mongoose.Types.ObjectId(userId);
-        return await Game.findOne({
-            $or: [
-                { 'player1.userId': oid },
-                { 'player2.userId': oid },
-            ],
-            status: 'ACTIVE',
-        });
-    }
-
     async searchUserGames(userId, query) {
         const oid = new mongoose.Types.ObjectId(userId);
         const filter = {
@@ -40,12 +29,14 @@ class GameRepository {
         };
 
         if (query) {
-            filter.$and = [{
-                $or: [
-                    { 'player2.username': { $regex: query, $options: 'i' } },
-                    { 'player1.username': { $regex: query, $options: 'i' } },
-                ],
-            }];
+            const searchOr = [
+                { 'player1.username': { $regex: query, $options: 'i' } },
+                { 'player2.username': { $regex: query, $options: 'i' } },
+            ];
+            if (mongoose.Types.ObjectId.isValid(query)) {
+                searchOr.push({ _id: new mongoose.Types.ObjectId(query) });
+            }
+            filter.$and = [{ $or: searchOr }];
         }
 
         return await Game.find(filter).sort({ startTime: -1 });
@@ -111,20 +102,25 @@ class GameRepository {
     }
 
     async searchOnlineGamesForAdmin(query) {
-        const filter = { gameType: 'ONLINE' };
-
-        if (query) {
-            const orClauses = [
-                { 'player1.username': { $regex: query, $options: 'i' } },
-                { 'player2.username': { $regex: query, $options: 'i' } },
-            ];
-            if (mongoose.Types.ObjectId.isValid(query)) {
-                orClauses.push({ _id: new mongoose.Types.ObjectId(query) });
-            }
-            filter.$or = orClauses;
+        if (!query) {
+            return await Game.find({ gameType: 'ONLINE' }).sort({ startTime: -1 });
         }
 
-        return await Game.find(filter).sort({ startTime: -1 });
+        // $toString on _id lets partial shortcodes (e.g. last-6 chars shown in UI) match
+        return await Game.aggregate([
+            { $match: { gameType: 'ONLINE' } },
+            { $addFields: { idString: { $toLower: { $toString: '$_id' } } } },
+            {
+                $match: {
+                    $or: [
+                        { 'player1.username': { $regex: query, $options: 'i' } },
+                        { 'player2.username': { $regex: query, $options: 'i' } },
+                        { idString: { $regex: query.toLowerCase() } },
+                    ],
+                },
+            },
+            { $sort: { startTime: -1 } },
+        ]);
     }
 }
 

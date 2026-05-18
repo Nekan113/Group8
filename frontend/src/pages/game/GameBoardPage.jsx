@@ -1,130 +1,22 @@
 import { useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import Button from '../../components/ui/Button';
 import ChatBox from '../../components/chat/ChatBox';
 import { PageLoader } from '../../components/ui/LoadingSpinner';
-import { useGameBoard, useOnlineGameSocket } from './GameBoardPage.hooks';
+import Button from '../../components/ui/Button';
+import { useGameBoard, useOnlineGameSocket, usePlayerAvatars } from './GameBoardPage.hooks';
+import WinnerOverlay from './WinnerOverlay';
+import WaitingOverlay from './WaitingOverlay';
+import AbortConfirmModal from './AbortConfirmModal';
+import AdminClosedModal from './AdminClosedModal';
+import AlgebraicLabel from './AlgebraicLabel';
+import './GameBoardPage.css';
 
 const BOARD_STYLES = [
   { id: 'classic', label: 'Classic', cellBg: 'bg-slate-100', cellBorder: 'border-slate-400', winCellBg: 'bg-amber-400' },
   { id: 'dark',    label: 'Dark',    cellBg: 'bg-slate-800', cellBorder: 'border-slate-600', winCellBg: 'bg-violet-600' },
   { id: 'neon',    label: 'Neon',    cellBg: 'bg-slate-900', cellBorder: 'border-cyan-700',  winCellBg: 'bg-cyan-500'   },
 ];
-
-// ── Overlay: waiting for second player to join ────────────────────────────────
-function WaitingOverlay({ game, onCancel }) {
-  const p2Joined = game?.player2?.username && game.player2.username !== 'Waiting...';
-
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-fade-in">
-      <div className="card p-8 text-center max-w-sm w-full border-violet-500/30">
-        <div className="flex justify-center mb-5">
-          <span className="relative flex h-14 w-14">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-40" />
-            <span className="relative inline-flex rounded-full h-14 w-14 bg-violet-600 items-center justify-center text-2xl">
-              {p2Joined ? '🎯' : '⏳'}
-            </span>
-          </span>
-        </div>
-        <h2 className="text-2xl font-black text-white mb-2">
-          {p2Joined ? 'Opponent Joined!' : 'Waiting for Opponent'}
-        </h2>
-        <p className="text-slate-400 text-sm mb-1">
-          {p2Joined
-            ? `${game.player2.username} is choosing their marker…`
-            : 'Your room is ready. Share the Arena with a friend!'}
-        </p>
-        <div className="bg-slate-900/60 rounded-xl p-3 border border-slate-700/50 my-4 text-left space-y-1.5">
-          <p className="text-xs text-slate-500">Board: <span className="text-slate-300 font-medium">{game?.boardSize}×{game?.boardSize}</span></p>
-          <p className="text-xs text-slate-500">Your marker: <span className="text-violet-400 font-bold text-base">{game?.player1?.marker}</span></p>
-          {p2Joined && (
-            <p className="text-xs text-slate-500">Opponent: <span className="text-white font-medium">{game.player2.username}</span></p>
-          )}
-        </div>
-        {!p2Joined && (
-          <Button variant="danger" size="sm" className="w-full mt-1" onClick={onCancel}>
-            Cancel Room
-          </Button>
-        )}
-      </div>
-    </div>
-  );
-}
-
-// ── Overlay: game finished / aborted ─────────────────────────────────────────
-function WinnerOverlay({ game, user, onNewGame, onClose, isOnline }) {
-  const winnerName = game.winner === 'player1' ? game.player1.username : game.player2?.username;
-  const isYou = winnerName === user?.username;
-  const isDraw = game.winner === 'draw';
-  const isAborted = game.status === 'ABORTED';
-
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fade-in">
-      <div className="card p-8 text-center max-w-sm w-full animate-bounce-in border-violet-500/30">
-        <div className="text-7xl mb-4">
-          {isAborted ? '🚫' : isDraw ? '🤝' : isYou ? '🏆' : '💀'}
-        </div>
-        <h2 className="text-3xl font-black text-white mb-2">
-          {isAborted ? 'Game Aborted' : isDraw ? "It's a Draw!" : isYou ? 'You Win!' : `${winnerName} Wins!`}
-        </h2>
-        <p className="text-slate-400 mb-6 text-sm">
-          {isAborted ? 'The game was aborted.' : isDraw ? 'No winner this time.' : `${winnerName} placed 5 in a row!`}
-        </p>
-        <div className="flex gap-3">
-          <Button variant="secondary" className="flex-1" onClick={onClose}>View Board</Button>
-          <Button className="flex-1" onClick={onNewGame}>{isOnline ? 'Back to Arena' : 'New Game'}</Button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// ── Modal: confirm leave / abort ──────────────────────────────────────────────
-function AbortConfirmModal({ isOnline, onConfirm, onCancel }) {
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fade-in">
-      <div className="card p-7 text-center max-w-sm w-full border-red-500/20">
-        <div className="text-5xl mb-4">⚠️</div>
-        <h2 className="text-xl font-black text-white mb-2">
-          {isOnline ? 'Leave Game?' : 'Abort Game?'}
-        </h2>
-        <p className="text-slate-400 text-sm mb-6">
-          {isOnline
-            ? 'Your opponent will be notified and the game will be recorded as aborted.'
-            : 'No winner will be recorded. This cannot be undone.'}
-        </p>
-        <div className="flex gap-3">
-          <Button variant="secondary" className="flex-1" onClick={onCancel}>Stay</Button>
-          <Button variant="danger" className="flex-1" onClick={onConfirm}>
-            {isOnline ? 'Leave Game' : 'Abort Game'}
-          </Button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// ── Modal: room closed by admin ───────────────────────────────────────────────
-function AdminClosedModal({ onBack }) {
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fade-in">
-      <div className="card p-8 text-center max-w-sm w-full border-red-500/30">
-        <div className="text-6xl mb-4">🛑</div>
-        <h2 className="text-2xl font-black text-white mb-2">Room Closed</h2>
-        <p className="text-slate-400 text-sm mb-6">
-          This room has been closed by an administrator.
-        </p>
-        <Button className="w-full" onClick={onBack}>Back to Arena</Button>
-      </div>
-    </div>
-  );
-}
-
-function AlgebraicLabel({ index, axis, size, style }) {
-  const label = axis === 'col' ? String.fromCharCode(97 + index) : String(size - index);
-  return <div className="text-xs text-slate-500 flex items-center justify-center font-mono" style={style}>{label}</div>;
-}
 
 export default function GameBoardPage() {
   const { id } = useParams();
@@ -149,6 +41,7 @@ export default function GameBoardPage() {
   );
 
   const { adminClosed } = useOnlineGameSocket(id, isOnline, setGame, setShowOverlay);
+  const avatars = usePlayerAvatars(game, user);
 
   if (loading) return <PageLoader />;
   if (!game) return (
@@ -285,23 +178,41 @@ export default function GameBoardPage() {
             <div className="card p-4 flex-1 xl:flex-none">
               <p className="text-xs text-slate-500 uppercase font-semibold mb-3">Players</p>
               <div className="space-y-3">
-                {[game.player1, game.player2].map((p, i) => (
-                  <div key={i} className={`flex items-center gap-2.5 rounded-lg p-2 transition-all ${
-                    game.currentTurn === (i === 0 ? 'player1' : 'player2') && game.status === 'ACTIVE'
-                      ? 'bg-violet-600/15 border border-violet-600/30'
-                      : 'opacity-60'
-                  }`}>
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-lg font-black ${i === 0 ? 'bg-violet-600/30 text-violet-400' : 'bg-cyan-600/30 text-cyan-400'}`}>
-                      {p.marker}
+                {[game.player1, game.player2].map((p, i) => {
+                  const avatarUrl = i === 0 ? avatars.p1 : avatars.p2;
+                  const accentBg = i === 0 ? 'bg-violet-600/30' : 'bg-cyan-600/30';
+                  const accentText = i === 0 ? 'text-violet-400' : 'text-cyan-400';
+                  const badgeBg = i === 0 ? 'bg-violet-600' : 'bg-cyan-600';
+                  return (
+                    <div key={i} className={`flex items-center gap-2.5 rounded-lg p-2 transition-all ${
+                      game.currentTurn === (i === 0 ? 'player1' : 'player2') && game.status === 'ACTIVE'
+                        ? 'bg-violet-600/15 border border-violet-600/30'
+                        : 'opacity-60'
+                    }`}>
+                      {/* Avatar with marker badge */}
+                      <div className="relative flex-shrink-0">
+                        <div className={`w-10 h-10 rounded-full overflow-hidden ${accentBg}`}>
+                          {avatarUrl ? (
+                            <img src={avatarUrl} alt={p.username} className="w-full h-full object-cover" />
+                          ) : (
+                            <div className={`w-full h-full flex items-center justify-center text-sm font-black ${accentText}`}>
+                              {p.isAI ? '🤖' : p.username?.[0]?.toUpperCase() || '?'}
+                            </div>
+                          )}
+                        </div>
+                        <div className={`absolute -bottom-1 -right-1 w-5 h-5 rounded-full flex items-center justify-center text-xs font-black border-2 border-slate-800 ${badgeBg} text-white`}>
+                          {p.marker}
+                        </div>
+                      </div>
+                      <div>
+                        <p className="text-white text-xs font-semibold">{p.username}</p>
+                        <p className="text-slate-500 text-xs">
+                          {p.isAI ? 'AI' : isOnline ? (p.username === user?.username ? 'You' : 'Opponent') : 'Human'}
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <p className="text-white text-xs font-semibold">{p.username}</p>
-                      <p className="text-slate-500 text-xs">
-                        {p.isAI ? 'AI' : isOnline ? (p.username === user?.username ? 'You' : 'Opponent') : 'Human'}
-                      </p>
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
 

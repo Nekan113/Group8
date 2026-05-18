@@ -4,6 +4,8 @@ import { useAuth } from '../../context/AuthContext';
 import { gameService } from '../../services/game.service';
 import Button from '../../components/ui/Button';
 import Alert from '../../components/ui/Alert';
+import OptionCard from './OptionCard';
+import './GameSetupPage.css';
 
 const MARKERS = [
   { symbol: 'X', label: 'X', color: 'text-violet-400' },
@@ -20,21 +22,6 @@ const AI_DESC  = {
   MEDIUM: 'Blocks your patterns and open 4-in-a-rows. A real challenge.',
   HARD:   'Defends and attacks aggressively. Only for veterans.',
 };
-
-function OptionCard({ selected, onClick, children, className = '' }) {
-  return (
-    <button
-      onClick={onClick}
-      className={`border-2 rounded-xl p-4 text-center transition-all duration-150 w-full ${
-        selected
-          ? 'border-violet-500 bg-violet-600/15 text-white shadow-lg shadow-violet-500/20'
-          : 'border-slate-700 bg-slate-800/50 text-slate-300 hover:border-slate-500 hover:bg-slate-800'
-      } ${className}`}
-    >
-      {children}
-    </button>
-  );
-}
 
 export default function GameSetupPage() {
   const { user } = useAuth();

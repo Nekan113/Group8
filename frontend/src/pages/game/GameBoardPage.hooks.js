@@ -2,6 +2,8 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { fetchGame, sendMove, abortGame } from './GameBoardPage.service';
 import { socketService } from '../../services/socket.service';
+import { profileService } from '../../services/profile.service';
+import { getAvatarUrl } from '../../config/api.config';
 
 export function useGameBoard(id, initialGame, user, isOnline) {
     const navigate = useNavigate();
@@ -117,6 +119,44 @@ export function useGameBoard(id, initialGame, user, isOnline) {
         moveError, isWinCell, handleCellClick,
         handleAbort, handleAbortConfirm, navigate,
     };
+}
+
+export function usePlayerAvatars(game, user) {
+    const [avatars, setAvatars] = useState({ p1: null, p2: null });
+
+    useEffect(() => {
+        if (!game || !user) return;
+
+        const myId = user.id?.toString();
+        const isPlayer1 =
+            (game.player1?.userId?.toString() === myId) ||
+            (game.player1?.username === user?.username);
+        const myAvatar = getAvatarUrl(user.avatar);
+
+        const load = async () => {
+            const next = { p1: null, p2: null };
+
+            if (isPlayer1) {
+                next.p1 = myAvatar;
+                if (game.gameType === 'ONLINE' && game.player2?.userId) {
+                    const { data, ok } = await profileService.getUserAvatar(game.player2.userId);
+                    if (ok) next.p2 = getAvatarUrl(data.avatar);
+                }
+            } else {
+                next.p2 = myAvatar;
+                if (game.player1?.userId) {
+                    const { data, ok } = await profileService.getUserAvatar(game.player1.userId);
+                    if (ok) next.p1 = getAvatarUrl(data.avatar);
+                }
+            }
+
+            setAvatars(next);
+        };
+
+        load();
+    }, [game?.id, game?.player1?.userId, game?.player2?.userId, user?.id]);
+
+    return avatars;
 }
 
 export function useOnlineGameSocket(gameId, isOnline, setGame, setShowOverlay) {

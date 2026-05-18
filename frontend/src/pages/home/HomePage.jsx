@@ -1,15 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-
-function FeatureCard({ icon, title, desc }) {
-  return (
-    <div className="card p-5 hover:border-violet-600/40 hover:bg-slate-700/50 transition-all duration-200">
-      <div className="text-3xl mb-3">{icon}</div>
-      <h3 className="text-white font-semibold mb-1">{title}</h3>
-      <p className="text-slate-400 text-sm leading-relaxed">{desc}</p>
-    </div>
-  );
-}
+import FeatureCard from './FeatureCard';
+import './HomePage.css';
 
 export default function HomePage() {
   const { user } = useAuth();
@@ -23,6 +15,9 @@ export default function HomePage() {
           <div className="inline-flex items-center gap-2 bg-violet-900/30 border border-violet-700/40 rounded-full px-4 py-1.5 mb-6">
             <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
             <span className="text-violet-300 text-sm font-medium">Online TicTacToe Platform</span>
+          </div>
+          <div className="flex justify-center mb-6">
+            <img src="/tictactoe-logo.png" alt="TicTacToang" className="w-28 h-28 object-contain drop-shadow-2xl" />
           </div>
           <h1 className="text-5xl sm:text-6xl font-black text-white mb-4 leading-tight">
             <span className="text-violet-400">Tic</span>

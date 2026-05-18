@@ -46,15 +46,10 @@ class AuthService {
     }
 
     async logout(token) {
-        try {
-            const decoded = jwt.decode(token);
-            if (!decoded || !decoded.exp) throw new Error('Invalid token');
-            const expiresAt = new Date(decoded.exp * 1000);
-            await authRepository.blacklistToken(token, expiresAt);
-        } catch (err) {
-            if (!err.message.includes('Invalid token')) return;
-            throw err;
-        }
+        const decoded = jwt.decode(token);
+        if (!decoded || !decoded.exp) throw new Error('Invalid token');
+        const expiresAt = new Date(decoded.exp * 1000);
+        await authRepository.blacklistToken(token, expiresAt).catch(() => {});
     }
 
     async isTokenBlacklisted(token) {

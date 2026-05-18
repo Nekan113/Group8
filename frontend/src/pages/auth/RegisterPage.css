@@ -1,0 +1,51 @@
+.strength-bars {
+  display: flex;
+  gap: 0.25rem;
+  margin-top: 0.5rem;
+}
+
+.strength-bar {
+  height: 4px;
+  border-radius: 9999px;
+  flex: 1;
+  transition: background-color 0.3s ease;
+  background-color: rgb(51 65 85);
+}
+
+.strength-checks {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 0.75rem;
+  row-gap: 0.25rem;
+  margin-top: 0.25rem;
+}
+
+.strength-check {
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.strength-check-ok {
+  color: rgb(52 211 153);
+}
+
+.strength-check-fail {
+  color: rgb(100 116 139);
+}
+
+.password-toggle {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgb(148 163 184);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.password-toggle:hover {
+  color: rgb(226 232 240);
+}

@@ -2,7 +2,8 @@ import { http } from './http.helper';
 import { PROFILE_API } from '../config/api.config';
 
 export const profileService = {
-  getProfile:  ()       => http.get(PROFILE_API.get),
+  getProfile:      ()         => http.get(PROFILE_API.get),
+  getUserAvatar:   (userId)   => http.get(PROFILE_API.userAvatar(userId)),
   updateProfile: (data) => http.put(PROFILE_API.update, data),
   changePassword: (data)=> http.put(PROFILE_API.password, data),
   uploadAvatar: (file)  => {

@@ -31,9 +31,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2.5 group">
-            <div className="w-8 h-8 bg-gradient-to-br from-violet-500 to-cyan-500 rounded-lg flex items-center justify-center text-white font-black text-sm shadow-lg shadow-violet-500/30">
-              T
-            </div>
+            <img src="/tictactoe-logo.png" alt="TicTacToang" className="w-8 h-8 object-contain" />
             <span className="font-black text-lg tracking-tight">
               <span className="text-violet-400">Tic</span>
               <span className="text-cyan-400">Tac</span>

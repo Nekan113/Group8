@@ -7,11 +7,12 @@ export const AUTH_API = {
 };
 
 export const PROFILE_API = {
-  get:       `${BASE}/api/profile`,
-  update:    `${BASE}/api/profile`,
-  password:  `${BASE}/api/profile/password`,
-  avatar:    `${BASE}/api/profile/avatar`,
-  history:   `${BASE}/api/profile/history`,
+  get:         `${BASE}/api/profile`,
+  update:      `${BASE}/api/profile`,
+  password:    `${BASE}/api/profile/password`,
+  avatar:      `${BASE}/api/profile/avatar`,
+  history:     `${BASE}/api/profile/history`,
+  userAvatar:  (userId) => `${BASE}/api/profile/user/${userId}/avatar`,
   deposit:              `${BASE}/api/profile/wallet/deposit`,
   subscribe:            `${BASE}/api/profile/subscription`,
   stripeCheckout:       `${BASE}/api/profile/subscription/stripe/create-checkout-session`,
@@ -34,6 +35,5 @@ export const ADMIN_API = {
   closeGame:  (id) => `${BASE}/api/admin/games/${id}/close`,
 };
 
-// Avatar paths from the backend start with "/uploads/avatars/..."
-// so we just prepend the base URL, not an extra /uploads segment.
+
 export const getAvatarUrl = (avatarPath) => avatarPath ? `${BASE}${avatarPath}` : null;

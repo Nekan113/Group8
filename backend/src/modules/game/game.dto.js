@@ -10,10 +10,12 @@ const gameStateDTO = (game) => ({
     boardSize: game.boardSize,
     board: game.board,
     player1: {
+        userId: game.player1.userId,
         username: game.player1.username,
         marker: game.player1.marker,
     },
     player2: {
+        userId: game.player2.userId,
         username: game.player2.username,
         marker: game.player2.marker,
         isAI: game.player2.isAI,

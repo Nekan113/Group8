@@ -1,6 +1,6 @@
 const gameRepository = require('./game.repository');
 
-const AI_NAMES = { EASY: 'EasyBot', MEDIUM: 'MedBot', HARD: 'HardBot' };
+const AI_NAMES = { EASY: 'Jeremy (Easy)', MEDIUM: 'Nexus (Medium)', HARD: 'Titan (Hard)' };
 
 function createBoard(size) {
     return Array.from({ length: size }, () => Array(size).fill(null));
@@ -439,10 +439,6 @@ class GameService {
         game.currentTurn = mySlot === 'player1' ? 'player2' : 'player1';
         await game.save();
         return game;
-    }
-
-    async getWaitingOnlineRooms() {
-        return await gameRepository.findWaitingOnlineGames();
     }
 
     async getOnlineGames() {

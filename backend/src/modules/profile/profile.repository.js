@@ -55,6 +55,10 @@ class ProfileRepository {
             { new: true }
         ).select('-password -loginAttempts -lockUntil');
     }
+
+    async findAvatarById(userId) {
+        return await User.findById(userId).select('avatar');
+    }
 }
 
 module.exports = new ProfileRepository();
