@@ -12,7 +12,7 @@ async function sendPremiumConfirmationEmail(toEmail, username, expiryDate) {
         year: 'numeric', month: 'long', day: 'numeric',
     });
 
-    await resend.emails.send({
+    const { data, error } = await resend.emails.send({
         from: 'TicTacToang <onboarding@resend.dev>',
         to: toEmail,
         subject: '⭐ Premium Subscription Activated — TicTacToang',
@@ -37,6 +37,12 @@ async function sendPremiumConfirmationEmail(toEmail, username, expiryDate) {
             </div>
         `,
     });
+
+    if (error) {
+        console.error('[Email] Resend API error:', JSON.stringify(error));
+    } else {
+        console.log('[Email] Sent successfully to', toEmail, '| id:', data.id);
+    }
 }
 
 module.exports = { sendPremiumConfirmationEmail };
