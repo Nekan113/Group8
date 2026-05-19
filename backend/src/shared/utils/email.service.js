@@ -1,18 +1,10 @@
-const nodemailer = require('nodemailer');
+const { Resend } = require('resend');
 
-const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST || 'smtp.gmail.com',
-    port: parseInt(process.env.SMTP_PORT || '587'),
-    secure: false,
-    auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-    },
-});
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 async function sendPremiumConfirmationEmail(toEmail, username, expiryDate) {
-    if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
-        console.warn('[Email] SMTP credentials not configured — skipping confirmation email');
+    if (!process.env.RESEND_API_KEY) {
+        console.warn('[Email] RESEND_API_KEY not configured — skipping confirmation email');
         return;
     }
 
@@ -20,8 +12,8 @@ async function sendPremiumConfirmationEmail(toEmail, username, expiryDate) {
         year: 'numeric', month: 'long', day: 'numeric',
     });
 
-    await transporter.sendMail({
-        from: `"TicTacToang" <${process.env.SMTP_USER}>`,
+    await resend.emails.send({
+        from: 'TicTacToang <onboarding@resend.dev>',
         to: toEmail,
         subject: '⭐ Premium Subscription Activated — TicTacToang',
         html: `
