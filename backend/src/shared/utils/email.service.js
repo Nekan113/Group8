@@ -12,9 +12,11 @@ async function sendPremiumConfirmationEmail(toEmail, username, expiryDate) {
         year: 'numeric', month: 'long', day: 'numeric',
     });
 
+    const recipient = process.env.RESEND_TEST_EMAIL || toEmail;
+
     const { data, error } = await resend.emails.send({
         from: 'TicTacToang <onboarding@resend.dev>',
-        to: toEmail,
+        to: recipient,
         subject: '⭐ Premium Subscription Activated — TicTacToang',
         html: `
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #0f172a; color: #e2e8f0; padding: 32px; border-radius: 12px;">
