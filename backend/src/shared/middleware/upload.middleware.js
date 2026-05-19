@@ -1,24 +1,21 @@
 const multer = require('multer');
 const sharp = require('sharp');
-const path = require('path');
-const fs = require('fs');
+const { v2: cloudinary } = require('cloudinary');
+
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key:    process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 const AVATAR_SIZE = 200;
-const AVATAR_DIR = path.join(process.env.UPLOAD_DIR || path.join(__dirname, '../../../uploads'), 'avatars');
-
-const storage = multer.memoryStorage();
-
-const fileFilter = (req, file, cb) => {
-    if (file.mimetype.startsWith('image/')) {
-        cb(null, true);
-    } else {
-        cb(new Error('Only image files are allowed'), false);
-    }
-};
 
 const upload = multer({
-    storage,
-    fileFilter,
+    storage: multer.memoryStorage(),
+    fileFilter: (req, file, cb) => {
+        if (file.mimetype.startsWith('image/')) cb(null, true);
+        else cb(new Error('Only image files are allowed'), false);
+    },
     limits: { fileSize: 5 * 1024 * 1024 },
 });
 
@@ -26,19 +23,25 @@ const processAvatar = async (req, res, next) => {
     if (!req.file) return next();
 
     try {
-        if (!fs.existsSync(AVATAR_DIR)) {
-            fs.mkdirSync(AVATAR_DIR, { recursive: true });
-        }
-
-        const filename = `avatar_${req.user.userId}_${Date.now()}.jpg`;
-        const filepath = path.join(AVATAR_DIR, filename);
-
-        await sharp(req.file.buffer)
+        const resized = await sharp(req.file.buffer)
             .resize(AVATAR_SIZE, AVATAR_SIZE, { fit: 'cover' })
             .jpeg({ quality: 90 })
-            .toFile(filepath);
+            .toBuffer();
 
-        req.file.savedPath = `/uploads/avatars/${filename}`;
+        const url = await new Promise((resolve, reject) => {
+            const stream = cloudinary.uploader.upload_stream(
+                {
+                    folder: 'avatars',
+                    public_id: `avatar_${req.user.userId}`,
+                    overwrite: true,
+                    resource_type: 'image',
+                },
+                (error, result) => (error ? reject(error) : resolve(result.secure_url))
+            );
+            stream.end(resized);
+        });
+
+        req.file.savedPath = url;
         next();
     } catch (err) {
         next(err);
