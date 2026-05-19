@@ -36,4 +36,8 @@ export const ADMIN_API = {
 };
 
 
-export const getAvatarUrl = (avatarPath) => avatarPath ? `${BASE}${avatarPath}` : null;
+export const getAvatarUrl = (avatarPath) => {
+  if (!avatarPath) return null;
+  if (avatarPath.startsWith('http')) return avatarPath;
+  return `${BASE}${avatarPath}`;
+};
