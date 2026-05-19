@@ -101,6 +101,7 @@ export default function GameHistoryPage() {
                     <th className="table-header">Result</th>
                     <th className="table-header">Opponent</th>
                     <th className="table-header">Type</th>
+                    <th className="table-header">Session ID</th>
                     <th className="table-header">Started</th>
                     <th className="table-header">Duration</th>
                     <th className="table-header">Actions</th>
@@ -121,6 +122,14 @@ export default function GameHistoryPage() {
                         <td className="table-cell">
                           <span className="text-xs text-slate-400">
                             {g.gameType === 'SINGLE_PLAYER' ? '🤖 vs AI' : g.gameType === 'TWO_PLAYER' ? '👥 Local' : '🌐 Online'}
+                          </span>
+                        </td>
+                        <td className="table-cell">
+                          <span
+                            className="font-mono text-xs text-slate-500 cursor-default"
+                            title={String(g.id)}
+                          >
+                            …{String(g.id).slice(-6)}
                           </span>
                         </td>
                         <td className="table-cell text-slate-400 text-xs whitespace-nowrap">{formatDate(g.startTime)}</td>

@@ -23,23 +23,33 @@ class GameRepository {
 
     async searchUserGames(userId, query) {
         const oid = new mongoose.Types.ObjectId(userId);
-        const filter = {
-            $or: [{ 'player1.userId': oid }, { 'player2.userId': oid }],
-            status: { $ne: 'ACTIVE' },
-        };
 
-        if (query) {
-            const searchOr = [
-                { 'player1.username': { $regex: query, $options: 'i' } },
-                { 'player2.username': { $regex: query, $options: 'i' } },
-            ];
-            if (mongoose.Types.ObjectId.isValid(query)) {
-                searchOr.push({ _id: new mongoose.Types.ObjectId(query) });
-            }
-            filter.$and = [{ $or: searchOr }];
+        if (!query) {
+            return await Game.find({
+                $or: [{ 'player1.userId': oid }, { 'player2.userId': oid }],
+                status: { $ne: 'ACTIVE' },
+            }).sort({ startTime: -1 });
         }
 
-        return await Game.find(filter).sort({ startTime: -1 });
+        return await Game.aggregate([
+            {
+                $match: {
+                    $or: [{ 'player1.userId': oid }, { 'player2.userId': oid }],
+                    status: { $ne: 'ACTIVE' },
+                },
+            },
+            { $addFields: { idString: { $toLower: { $toString: '$_id' } } } },
+            {
+                $match: {
+                    $or: [
+                        { 'player1.username': { $regex: query, $options: 'i' } },
+                        { 'player2.username': { $regex: query, $options: 'i' } },
+                        { idString: { $regex: query.toLowerCase() } },
+                    ],
+                },
+            },
+            { $sort: { startTime: -1 } },
+        ]);
     }
 
     async filterUserGames(userId, { startDate, endDate, result, gameType, sortOrder }) {

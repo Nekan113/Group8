@@ -4,7 +4,7 @@ const path = require('path');
 const fs = require('fs');
 
 const AVATAR_SIZE = 200;
-const AVATAR_DIR = path.join(__dirname, '../../../uploads/avatars');
+const AVATAR_DIR = path.join(process.env.UPLOAD_DIR || path.join(__dirname, '../../../uploads'), 'avatars');
 
 const storage = multer.memoryStorage();
 
