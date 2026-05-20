@@ -4,7 +4,7 @@
 
 cd backend
 npm install
-npm run dev or node index.js
+node index.js
 
 Backend runs on:
 http://localhost:5000
