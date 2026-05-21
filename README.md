@@ -22,6 +22,10 @@ http://localhost:3000
 
 ---
 
+Access through website :  https://group8-1.onrender.com
+
+Github Repo link : https://github.com/RMIT-Full-Stack-Development-2026A/Group8
+
 ## Account to use for testing : 
 
 ADMIN : admin password: 1
@@ -32,9 +36,7 @@ Free : test2 password: Test123456@
 
 Premium : test3 password: Test123456@
 
-Card detail to test : 4242 4242 4242 4242
-
-Web url : https://group8-1.onrender.com
+Card detail to test : 4242 4242 4242 4242, fill any future expiry date and any cvv to test Stripe payment feature 
 
 ---
 
