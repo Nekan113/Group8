@@ -105,6 +105,27 @@ function findForkCell(board, marker, size) {
     return null;
 }
 
+function getNearbyCell(board, size, radius) {
+    const candidates = [];
+    const seen = new Set();
+    for (let r = 0; r < size; r++) {
+        for (let c = 0; c < size; c++) {
+            if (board[r][c] === null) continue;
+            for (let dr = -radius; dr <= radius; dr++) {
+                for (let dc = -radius; dc <= radius; dc++) {
+                    const nr = r + dr, nc = c + dc;
+                    const key = `${nr},${nc}`;
+                    if (nr >= 0 && nr < size && nc >= 0 && nc < size && board[nr][nc] === null && !seen.has(key)) {
+                        seen.add(key);
+                        candidates.push([nr, nc]);
+                    }
+                }
+            }
+        }
+    }
+    return candidates.length > 0 ? candidates[Math.floor(Math.random() * candidates.length)] : null;
+}
+
 function isWinningMove(board, r, c, marker, size) {
     board[r][c] = marker;
     const { won } = checkWin(board, r, c, marker, size);
@@ -142,11 +163,11 @@ function getMediumMove(board, aiMarker, playerMarker, size) {
     for (const [r, c] of empty) {
         if (isWinningMove(board, r, c, playerMarker, size)) return [r, c];
     }
-    const block4 = findThreatCell(board, playerMarker, 4, 1, size);
+    const block4 = findThreatCell(board, playerMarker, 4, 2, size);
     if (block4) return block4;
     const blockFork = findForkCell(board, playerMarker, size);
     if (blockFork) return blockFork;
-    return empty[Math.floor(Math.random() * empty.length)];
+    return getNearbyCell(board, size, 2) || empty[Math.floor(Math.random() * empty.length)];
 }
 
 function getHardMove(board, aiMarker, playerMarker, size) {
@@ -158,15 +179,15 @@ function getHardMove(board, aiMarker, playerMarker, size) {
     for (const [r, c] of empty) {
         if (isWinningMove(board, r, c, playerMarker, size)) return [r, c];
     }
-    const attack4 = findThreatCell(board, aiMarker, 4, 1, size);
-    if (attack4) return attack4;
-    const block4 = findThreatCell(board, playerMarker, 4, 1, size);
+    const block4 = findThreatCell(board, playerMarker, 4, 2, size);
     if (block4) return block4;
     const blockFork = findForkCell(board, playerMarker, size);
     if (blockFork) return blockFork;
+    const attack4 = findThreatCell(board, aiMarker, 4, 1, size);
+    if (attack4) return attack4;
     const attack3 = findThreatCell(board, aiMarker, 3, 2, size);
     if (attack3) return attack3;
-    return empty[Math.floor(Math.random() * empty.length)];
+    return getNearbyCell(board, size, 2) || empty[Math.floor(Math.random() * empty.length)];
 }
 
 function getAIMove(board, aiMarker, playerMarker, difficulty, lastPlayerMove, size) {
