@@ -1,0 +1,198 @@
+import { ROLES } from '../constants'
+
+export const mockUsers = {
+  admin: {
+    id: 'ADM001',
+    username: 'admin',
+    email: 'admin@aff.vn',
+    role: ROLES.ADMIN,
+    avatar: null,
+  },
+  donorFree: {
+    id: 'DON001',
+    companyName: 'Green Market Co.',
+    email: 'greenmarket@aff.vn',
+    role: ROLES.DONOR,
+    city: 'Hà Nội',
+    avatar: null,
+  },
+  donorPaid: {
+    id: 'DON002',
+    companyName: 'Fresh Bakery HCM',
+    email: 'freshbakery@aff.vn',
+    role: ROLES.DONOR,
+    city: 'Hồ Chí Minh',
+    avatar: null,
+  },
+  recipientPremium: {
+    id: 'REC001',
+    username: 'lan_nguyen',
+    email: 'lan.nguyen@email.vn',
+    role: ROLES.RECIPIENT,
+    city: 'Hà Nội',
+    isPremium: true,
+    walletBalance: 150000,
+    avatar: null,
+  },
+  recipientStandard: {
+    id: 'REC002',
+    username: 'minh_tran',
+    email: 'minh.tran@email.vn',
+    role: ROLES.RECIPIENT,
+    city: 'Đà Nẵng',
+    isPremium: false,
+    walletBalance: 50000,
+    avatar: null,
+  },
+}
+
+export const mockListings = [
+  {
+    id: 'LST001',
+    donorId: 'DON001',
+    donorName: 'Green Market Co.',
+    donorCity: 'Hà Nội',
+    name: 'Fresh Vegetables Bundle',
+    description: 'Surplus vegetables from today\'s market',
+    category: 'Vegetable',
+    vegetarian: 'yes',
+    unit: 'kg',
+    totalQuantity: 50,
+    remainingQuantity: 32,
+    price: 0,
+    ration: 2,
+    status: 'active',
+    createdAt: '2026-08-01T08:00:00',
+    donations: 9,
+    revenue: 0,
+  },
+  {
+    id: 'LST002',
+    donorId: 'DON002',
+    donorName: 'Fresh Bakery HCM',
+    donorCity: 'Hồ Chí Minh',
+    name: 'Day-old Bread & Pastries',
+    description: 'Quality baked goods at affordable price',
+    category: 'Baked Goods',
+    vegetarian: 'yes',
+    unit: 'unit',
+    totalQuantity: 40,
+    remainingQuantity: 18,
+    price: 5000,
+    ration: 5,
+    status: 'active',
+    createdAt: '2026-08-02T06:30:00',
+    donations: 22,
+    revenue: 110000,
+  },
+  {
+    id: 'LST003',
+    donorId: 'DON001',
+    donorName: 'Green Market Co.',
+    donorCity: 'Hà Nội',
+    name: 'Seasonal Fruits',
+    description: 'Mixed tropical fruits',
+    category: 'Fruit',
+    vegetarian: 'yes',
+    unit: 'kg',
+    totalQuantity: 30,
+    remainingQuantity: 0,
+    price: 0,
+    ration: 1,
+    status: 'sold_out',
+    createdAt: '2026-07-28T09:00:00',
+    closedAt: '2026-07-30T17:00:00',
+    donations: 30,
+    revenue: 0,
+  },
+  {
+    id: 'LST004',
+    donorId: 'DON002',
+    donorName: 'Fresh Bakery HCM',
+    donorCity: 'Hồ Chí Minh',
+    name: 'Cooked Meals',
+    description: 'Ready-to-eat meals',
+    category: 'Cooked Dish',
+    vegetarian: 'no',
+    unit: 'unit',
+    totalQuantity: 25,
+    remainingQuantity: 10,
+    price: 15000,
+    ration: 2,
+    status: 'paused',
+    createdAt: '2026-08-03T11:00:00',
+    donations: 15,
+    revenue: 225000,
+  },
+]
+
+export const mockCollections = [
+  {
+    id: 'COL001',
+    listingName: 'Fresh Vegetables Bundle',
+    donorName: 'Green Market Co.',
+    category: 'Vegetable',
+    quantity: 2,
+    unit: 'kg',
+    pricePaid: 0,
+    paymentMethod: null,
+    collectedAt: '2026-07-25T14:30:00',
+    feedback: 'Very fresh, thank you!',
+  },
+  {
+    id: 'COL002',
+    listingName: 'Day-old Bread & Pastries',
+    donorName: 'Fresh Bakery HCM',
+    category: 'Baked Goods',
+    quantity: 3,
+    unit: 'unit',
+    pricePaid: 15000,
+    paymentMethod: 'wallet',
+    collectedAt: '2026-07-20T10:00:00',
+    feedback: null,
+  },
+]
+
+export const mockAdminUsers = [
+  { id: 'REC001', username: 'lan_nguyen', email: 'lan.nguyen@email.vn', role: 'Recipient', status: 'active' },
+  { id: 'REC002', username: 'minh_tran', email: 'minh.tran@email.vn', role: 'Recipient', status: 'active' },
+  { id: 'DON001', username: 'Green Market Co.', email: 'greenmarket@aff.vn', role: 'Donor', status: 'active' },
+  { id: 'DON002', username: 'Fresh Bakery HCM', email: 'freshbakery@aff.vn', role: 'Donor', status: 'active' },
+  { id: 'REC003', username: 'hoa_le', email: 'hoa.le@email.vn', role: 'Recipient', status: 'inactive' },
+]
+
+export const mockNotifications = [
+  {
+    id: 'NTF001',
+    message: 'New Vegetable listing matches your preferences!',
+    listingId: 'LST001',
+    read: false,
+    createdAt: '2026-08-01T08:05:00',
+  },
+  {
+    id: 'NTF002',
+    message: 'Your reservation for Day-old Bread has been confirmed',
+    listingId: 'LST002',
+    read: true,
+    createdAt: '2026-08-02T07:00:00',
+  },
+]
+
+export const demoCredentials = [
+  { label: 'Admin', email: 'admin@aff.vn', password: 'Admin@123' },
+  { label: 'Donor (Free food)', email: 'greenmarket@aff.vn', password: 'Donor@123' },
+  { label: 'Donor (Paid food)', email: 'freshbakery@aff.vn', password: 'Donor@123' },
+  { label: 'Premium Recipient', email: 'lan.nguyen@email.vn', password: 'Recip@123' },
+  { label: 'Standard Recipient', email: 'minh.tran@email.vn', password: 'Recip@123' },
+]
+
+export function findDemoUser(email) {
+  const map = {
+    'admin@aff.vn': mockUsers.admin,
+    'greenmarket@aff.vn': mockUsers.donorFree,
+    'freshbakery@aff.vn': mockUsers.donorPaid,
+    'lan.nguyen@email.vn': mockUsers.recipientPremium,
+    'minh.tran@email.vn': mockUsers.recipientStandard,
+  }
+  return map[email.toLowerCase()] || null
+}
